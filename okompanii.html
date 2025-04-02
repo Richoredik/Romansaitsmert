@@ -1,0 +1,231 @@
+<!DOCTYPE html>  
+<html lang="ru">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta name="description" content="О компании Ритуальные услуги. Узнайте больше о нашей миссии и услугах.">  
+    <title>О компании</title>  
+    <link rel="stylesheet" href="style.css">  
+    <style>
+        /* Стили для модальных окон (добавлены минимально) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            color: black;
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .auth-buttons .btn {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 22px;
+        }
+        .modal form label {
+            display: block;
+            margin-top: 10px;
+        }
+        .modal form input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        .modal form button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>  
+<body class="okompanii">  
+    <header>  
+        <div class="header-content" style="display: flex; align-items: center; justify-content: space-between;">  
+            <nav>  
+                <ul class="nav-menu">  
+                    <li><a href="index.html"><img src="logo.jpg" alt="Логотип" class="logo"></a></li>  
+                    <li><a href="index.html">Главная</a></li>  
+                    <li><a href="uslugi.html">Услуги</a></li> 
+                    <li><a href="tovari.html">Ритуальные товары</a></li> 
+                    <li><a href="spravoch.html">Справочная информация</a></li>
+                    <li><a href="okompanii.html">О компании</a></li>  
+                    <li><a href="contacts.html">Контакты</a></li>  
+                </ul>  
+            </nav>
+            <!-- Добавлены кнопки входа/регистрации -->
+            <div class="auth-buttons">
+                <a href="#" class="btn" id="login-btn">Вход</a>
+                <a href="#" class="btn" id="register-btn">Регистрация</a>
+            </div>
+        </div>  
+    </header>  
+    <section id="about" class="about-section">  
+        <div class="container">  
+            <h1>О компании</h1>  
+            <p class="mission">Наша миссия – поддержка людей в трудный момент их жизни, помощь в организации достойного и уважительного прощания с близкими.</p>  
+            <p><big>Наш офис </big></p>
+            <img src="office.jpg" alt="Офис компании" class="about-image">  
+        </div>  
+
+        <div class="company-info">  
+            <h2>Почему выбирают нас</h2>  
+            <p>Компания "Ритуальные услуги" уже более 20 лет оказывает полный спектр ритуальных услуг по всей России. Наши специалисты готовы оказать поддержку на каждом этапе, начиная с оформления документов и заканчивая организацией всех необходимых мероприятий. Мы понимаем, насколько важен этот момент, и гарантируем, что всё будет организовано с максимальной внимательностью и уважением.</p>  
+        </div>  
+
+        <div class="values">  
+            <h2>Наши ценности</h2>  
+            <ul>  
+                <li><strong>Достоинство и уважение:</strong> Каждая деталь важна для достойного прощания.</li>  
+                <li><strong>Поддержка:</strong> Мы рядом, чтобы облегчить трудности в этот сложный момент.</li>  
+                <li><strong>Опыт и профессионализм:</strong> Мы организовали тысячи церемоний с вниманием к каждой детали.</li>  
+            </ul>  
+        </div>  
+
+        <div class="about-footer">  
+            <h2>Контактная информация</h2>  
+            <p>Наш офис: Краснопресненская набережная, 2</p>  
+            <p>Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a></p>  
+            <p>Email: <a href="mailto:info@ritual-spb.ru">info@ritual-russia.ru</a></p>  
+        </div>  
+    </section>  
+    <footer>  
+        <p>&copy; 2024 Ритуальные услуги. Все права защищены.</p>  
+    </footer>  
+
+    <!-- Модальное окно входа -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Вход</h2>
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" required>
+                
+                <label for="login-password">Пароль:</label>
+                <input type="password" id="login-password" required>
+                
+                <button type="submit" class="btn">Войти</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно регистрации -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Регистрация</h2>
+            <form id="register-form">
+                <label for="reg-name">Имя:</label>
+                <input type="text" id="reg-name" required>
+                
+                <label for="reg-email">Email:</label>
+                <input type="email" id="reg-email" required>
+                
+                <label for="reg-password">Пароль:</label>
+                <input type="password" id="reg-password" required>
+                
+                <label for="reg-confirm">Подтвердите пароль:</label>
+                <input type="password" id="reg-confirm" required>
+                
+                <button type="submit" class="btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Работа с модальными окнами
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const closeBtns = document.querySelectorAll('.close-btn');
+
+        // Открытие модальных окон
+        loginBtn.onclick = function(e) {
+            e.preventDefault();
+            loginModal.style.display = 'block';
+        }
+
+        registerBtn.onclick = function(e) {
+            e.preventDefault();
+            registerModal.style.display = 'block';
+        }
+
+        // Закрытие модальных окон
+        closeBtns.forEach(btn => {
+            btn.onclick = function() {
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'none';
+            }
+        });
+
+        // Закрытие при клике вне окна
+        window.onclick = function(e) {
+            if (e.target == loginModal) loginModal.style.display = 'none';
+            if (e.target == registerModal) registerModal.style.display = 'none';
+        }
+
+        // Обработка формы входа
+        document.getElementById('login-form').onsubmit = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Здесь должна быть проверка данных (имитация)
+            if(email && password) {
+                alert('Вход выполнен успешно!');
+                loginModal.style.display = 'none';
+            } else {
+                alert('Пожалуйста, заполните все поля');
+            }
+        }
+
+        // Обработка формы регистрации
+        document.getElementById('register-form').onsubmit = function(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('reg-confirm').value;
+            
+            if(password !== confirm) {
+                alert('Пароли не совпадают!');
+                return;
+            }
+            
+            if(name && email && password) {
+                alert('Регистрация прошла успешно!');
+                registerModal.style.display = 'none';
+            } else {
+                alert('Пожалуйста, заполните все поля');
+            }
+        }
+    </script>
+</body>  
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Контактная информация нашей компании.">
+    <title>Контакты</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <style>
+        /* Дополнительные стили для кнопок входа/регистрации */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .auth-buttons .btn {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 22px;
+            transition: background-color 0.3s ease;
+        }
+        .auth-buttons .btn:hover {
+            background-color: #ff1a1a;
+        }
+        /* Стили для форм модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .modal form input[type="email"],
+        .modal form input[type="password"],
+        .modal form input[type="text"],
+        .modal form input[type="tel"],
+        .modal form input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .modal form button.btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background-color: grey;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal form button.btn:hover {
+            background-color: #ff1a1a;
+        }
+        .checkbox {
+            margin-top: 15px;
+        }
+    </style>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=YOUR_API_KEY" type="text/javascript"></script>
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <video id="background-video" autoplay loop muted>
+    </video>
+
+    <header>
+        <div class="header-content" style="display: flex; align-items: center; justify-content: space-between;">
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><img src="logo.jpg" alt="Логотип" class="logo"></a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="uslugi.html">Услуги</a></li> 
+                    <li><a href="tovari.html">Ритуальные товары</a></li> 
+                    <li><a href="spravoch.html">Справочная информация</a></li>
+                    <li><a href="okompanii.html">О компании</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <!-- Кнопки аутентификации -->
+            <div class="auth-buttons">
+                <a href="#" class="btn" id="login-btn">Вход</a>
+                <a href="#" class="btn" id="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="contacts" class="contacts-section">
+        <h1>Контакты</h1>
+        <div class="contact-info">
+            <p><strong>Телефон:</strong> <a href="tel:+79001234567">+7 (800) 555-35-35</a></p>
+            <p><strong>Электронная почта:</strong> <a href="mailto:ritual-russia@gmail.com">ritual-russia@gmail.com</a></p>
+        </div>
+        <h2>Свяжитесь с нами</h2>
+        <p>Наш офис: Краснопресненская набережная, 2</p>
+        <p>Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a></p>
+        <p>Email: <a href="mailto:info@ritual-spb.ru">info@ritual-russia.ru</a></p>
+        <div id="map"></div> 
+        <script type="text/javascript">
+            ymaps.ready(init);
+            var myMap;
+
+            function init() {
+                myMap = new ymaps.Map("map", {
+                    center: [55.754950, 37.572781], // Координаты центра карты
+                    zoom: 13 // Масштаб карты
+                });
+
+                myMap.controls.add(
+                    new ymaps.control.ZoomControl() // Добавление элемента управления картой
+                );
+
+                myPlacemark = new ymaps.Placemark([55.754950, 37.572781], { // Координаты метки объекта
+                    balloonContent: "<div class='ya_map'>Наш офис продаж</div>" // Подсказка метки
+                }, {
+                    preset: "twirl#redDotIcon" // Тип метки
+                });
+
+                myMap.geoObjects.add(myPlacemark); // Добавление метки
+            }
+        </script>
+    </section>
+
+    <!-- Модальное окно для входа -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Вход</h2>
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="login-email" placeholder="Введите ваш email" maxlength="50" required>
+
+                <label for="login-password">Пароль:</label>
+                <input type="password" id="login-password" name="login-password" placeholder="Введите пароль" minlength="8" maxlength="20" required>
+
+                <button type="submit" class="btn">Войти</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно для регистрации -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Регистрация</h2>
+            <form id="register-form">
+                <label for="reg-name">Имя:</label>
+                <input type="text" id="reg-name" name="reg-name" placeholder="Введите имя" maxlength="20" required>
+
+                <label for="reg-surname">Фамилия:</label>
+                <input type="text" id="reg-surname" name="reg-surname" placeholder="Введите фамилию" maxlength="20" required>
+
+                <label for="reg-patronymic">Отчество:</label>
+                <input type="text" id="reg-patronymic" name="reg-patronymic" placeholder="Введите отчество" maxlength="20" required>
+
+                <label for="reg-birthdate">Дата рождения:</label>
+                <input type="date" id="reg-birthdate" name="reg-birthdate" required>
+
+                <label for="reg-email">Email:</label>
+                <input type="email" id="reg-email" name="reg-email" placeholder="Введите ваш email" maxlength="50" required>
+
+                <label for="reg-phone">Телефон:</label>
+                <input type="tel" id="reg-phone" placeholder="+7XXXXXXXXXX" pattern="^\+7\d{10}$" maxlength="12" required />
+
+                <label for="reg-password">Пароль:</label>
+                <input type="password" id="reg-password" name="reg-password" placeholder="Введите пароль" minlength="8" maxlength="20" required>
+                
+                <label for="reg-confirm-password">Подтверждение пароля:</label>
+                <input type="password" id="reg-confirm-password" name="reg-confirm-password" placeholder="Повторите пароль" minlength="8" maxlength="20" required>
+
+                <div class="checkbox">
+                    <input type="checkbox" id="reg-consent" name="reg-consent" required>
+                    <label for="reg-consent">Я согласен(а) на обработку персональных данных</label>
+                </div>
+
+                <button type="submit" class="btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>  
+        <p>&copy; 2024 Ритуальные услуги. Все права защищены.</p>  
+    </footer>
+
+    <!-- Скрипт для работы модальных окон -->
+    <script>
+        // Получаем элементы модальных окон
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+
+        // Кнопки для открытия модальных окон
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+
+        // Кнопки закрытия (крестики)
+        const closeButtons = document.querySelectorAll('.close-btn');
+
+        // Открытие модального окна входа
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.style.display = 'block';
+        });
+
+        // Открытие модального окна регистрации
+        registerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerModal.style.display = 'block';
+        });
+
+        // Закрытие всех модальных окон при нажатии на крестик
+        closeButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'none';
+            });
+        });
+
+        // Закрытие модального окна при клике вне его содержания
+        window.addEventListener('click', function(e) {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (e.target === registerModal) {
+                registerModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

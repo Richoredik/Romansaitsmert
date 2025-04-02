@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Справочная информация по организации ритуальных услуг, включая кремацию, морги и кладбища.">
+    <title>Справочная информация</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <style>
+        /* Стили для кнопок входа/регистрации */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .auth-buttons .btn {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 22px;
+            transition: background-color 0.3s ease;
+        }
+        .auth-buttons .btn:hover {
+            background-color: #ff1a1a;
+        }
+        
+        /* Стили только для форм в модальных окнах */
+        .modal-content {
+            text-align: left;
+        }
+        .modal form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .modal form input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .modal form button.btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body class="spravoch">
+    <header>
+        <div class="header-content" style="display: flex; align-items: center; justify-content: space-between;">
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><img src="logo.jpg" alt="Логотип" class="logo"></a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="uslugi.html">Услуги</a></li>
+                    <li><a href="tovari.html">Ритуальные товары</a></li>
+                    <li><a href="spravoch.html">Справочная информация</a></li>
+                    <li><a href="okompanii.html">О компании</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="btn" id="login-btn">Вход</a>
+                <a href="#" class="btn" id="register-btn">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="services-section">
+            <h1>Справочная информация</h1>
+            <a href="#" class="btn" id="call-request-btn">Заказать звонок</a>
+            <br><br>
+            
+            <!-- Модальные окна -->
+            <div id="call-request-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <h2>Заказать звонок</h2>
+                    <form id="call-request-form">
+                        <label for="name">Ваше имя:</label>
+                        <input type="text" id="name" name="name" required>
+
+                        <label for="phone">Ваш телефон:</label>
+                        <input type="tel" id="phone" name="phone" required>
+
+                        <div class="checkbox">
+                            <input type="checkbox" id="consent" name="consent">
+                            <label for="consent">Я согласен(а) на обработку персональных данных</label>
+                        </div>
+
+                        <button type="submit" id="submit-btn" disabled>Заказать звонок</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="login-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <h2>Вход</h2>
+                    <form id="login-form">
+                        <label for="login-email">Email:</label>
+                        <input type="email" id="login-email" name="login-email" required>
+
+                        <label for="login-password">Пароль:</label>
+                        <input type="password" id="login-password" name="login-password" required>
+
+                        <button type="submit" class="btn">Войти</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="register-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <h2>Регистрация</h2>
+                    <form id="register-form">
+                        <label for="reg-name">Имя:</label>
+                        <input type="text" id="reg-name" name="reg-name" required>
+
+                        <label for="reg-surname">Фамилия:</label>
+                        <input type="text" id="reg-surname" name="reg-surname" required>
+
+                        <label for="reg-patronymic">Отчество:</label>
+                        <input type="text" id="reg-patronymic" name="reg-patronymic">
+
+                        <label for="reg-birthdate">Дата рождения:</label>
+                        <input type="date" id="reg-birthdate" name="reg-birthdate" required>
+
+                        <label for="reg-email">Email:</label>
+                        <input type="email" id="reg-email" name="reg-email" required>
+
+                        <label for="reg-phone">Телефон:</label>
+                        <input type="tel" id="reg-phone" name="reg-phone" required>
+
+                        <label for="reg-password">Пароль:</label>
+                        <input type="password" id="reg-password" name="reg-password" required>
+
+                        <label for="reg-confirm-password">Подтверждение пароля:</label>
+                        <input type="password" id="reg-confirm-password" name="reg-confirm-password" required>
+
+                        <div class="checkbox">
+                            <input type="checkbox" id="reg-consent" name="reg-consent" required>
+                            <label for="reg-consent">Я согласен(а) на обработку персональных данных</label>
+                        </div>
+
+                        <button type="submit" class="btn">Зарегистрироваться</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Полный контент страницы -->
+            <div class="services-container">
+                <article class="info-item">
+                    <h2>Что делать, если человек умер</h2>
+                    <p>При смерти человека важно соблюдать определенные шаги.<br><br>
+                    Вызовите врача, чтобы получить справку о смерти.<br><br>
+                    После этого необходимо будет оформить документы в ЗАГСе и организовать похороны.<br><br>
+                    <a href="https://grs-piter.ru/organization/podgotovka-traurnogo-meropriyatiya/esli-umer-blizkiy-chelovek/?utm_source=yandex&utm_medium=cpc&utm_campaign=poisk&utm_content=umer-blizkiy-chelovek&utm_term=что%20делать%20если%20умер%20человек_type1_11329885185_34671798033_desktop_premium_1_Санкт-Петербург_66947696_4733501375&yclid=4616660791368876031" target="_blank" style="color: blue;">Прочитать подробнее</a></p>
+                </article>
+
+                <article class="info-item">
+                    <h2>Кремация</h2>
+                    <p>Кремация - это процесс сжигания тела покойного.<br><br>
+                    Она может быть предпочтительным вариантом для многих семей.<br><br>
+                    У нас есть услуги по организации кремации, выбору урн и гробов.<br><br>
+                    <a href="https://gs-ritual.ru/articles/informatsionnye-stati/kak-proiskhodit-krematsiya-cheloveka/" target="_blank" style="color: blue;">Прочитать подробнее</a></p>
+                </article>
+
+                <article class="info-item">
+                    <h2>Морги России</h2>
+                    <p>Существуют различные морги, где можно оформить тело умершего.<br><br>
+                    Мы предоставляем информацию о моргах и необходимых документах.<br><br>
+                    <a href="https://www.specritual.ru/spravochnik/morgi/regionalnye_morgi/" target="_blank" style="color: blue;">Список моргов России</a></p>
+                </article>
+
+                <article class="info-item">
+                    <h2>Кладбища</h2>
+                    <p>По России есть множество кладбищ.<br><br>
+                    Мы поможем вам выбрать подходящее место для захоронения.<br><br>
+                    <a href="https://iritual.ru/map/" target="_blank" style="color: blue;">Посмотреть список кладбищ России</a></p>
+                </article>
+
+                <article class="info-item">
+                    <h2>Оформление свидетельства о смерти</h2>
+                    <p>Свидетельство о смерти оформляется в ЗАГСе.<br><br>
+                    Вам понадобятся документы, подтверждающие смерть, и личные документы умершего.<br><br>
+                    <a href="https://www.gosuslugi.ru/life/details/death_registration" target="_blank" style="color: blue;">Прочитать подробнее</a></p>
+                </article>
+
+                <article class="info-item">
+                    <h2>Социальные пособия и выплаты на погребение</h2>
+                    <p>На погребение положены социальные пособия.<br><br>
+                    Мы расскажем о всех возможностях и как их оформить.<br><br>
+                    <a href="https://www.gosuslugi.ru/life/details/pensioner_death" target="_blank" style="color: blue;">Прочитать подробнее</a></p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-menu">
+            <p>&copy; 2024 Ритуальные услуги. Все права защищены.</p> 
+        </div>
+    </footer>
+
+    <script>
+        // Скрипт для работы модальных окон
+        const callRequestModal = document.getElementById('call-request-modal');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+
+        const callRequestBtn = document.getElementById('call-request-btn');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+
+        const closeButtons = document.querySelectorAll('.close-btn');
+
+        // Обработчики открытия
+        callRequestBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            callRequestModal.style.display = 'block';
+        });
+
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'block';
+        });
+
+        registerBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerModal.style.display = 'block';
+        });
+
+        // Обработчики закрытия
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                callRequestModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === callRequestModal) callRequestModal.style.display = 'none';
+            if (e.target === loginModal) loginModal.style.display = 'none';
+            if (e.target === registerModal) registerModal.style.display = 'none';
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

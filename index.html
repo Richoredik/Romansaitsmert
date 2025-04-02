@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ритуальные услуги с гарантией качества. Полное сопровождение и организация похорон по всей России.">
+  <title>Ритуальные услуги</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <style>
+    /* Дополнительные стили для кнопок входа/регистрации */
+    .auth-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    .auth-buttons .btn {
+      background-color: grey;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 22px;
+      transition: background-color 0.3s ease;
+    }
+    .auth-buttons .btn:hover {
+      background-color: #ff1a1a;
+    }
+    /* Стили для форм модальных окон (если нужно подогнать под общий стиль) */
+    .modal form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .modal form input[type="email"],
+    .modal form input[type="password"],
+    .modal form input[type="text"],
+    .modal form input[type="tel"],
+    .modal form input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .modal form button.btn {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Видеофон -->
+  <video id="background-video" autoplay loop muted>
+    <source src="Moscow.mp4" type="video/mp4">
+  </video>
+
+  <!-- Шапка сайта с навигацией и кнопками входа/регистрации -->
+  <header>
+    <div class="header-content" style="display: flex; align-items: center; justify-content: space-between;">
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="glav.html"><img src="logo.jpg" alt="Логотип" class="logo"></a></li>
+          <li><a href="glav.html">Главная</a></li>
+          <li><a href="uslugi.html">Услуги</a></li>
+          <li><a href="tovari.html">Ритуальные товары</a></li>
+          <li><a href="spravoch.html">Справочная информация</a></li>
+          <li><a href="okompanii.html">О компании</a></li>
+          <li><a href="contacts.html">Контакты</a></li>
+        </ul>
+      </nav>
+      <!-- Кнопки аутентификации -->
+      <div class="auth-buttons">
+        <a href="#" class="btn" id="login-btn">Вход</a>
+        <a href="#" class="btn" id="register-btn">Регистрация</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Основной раздел (hero) -->
+  <section id="home" class="hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <p><strong><big><big><big><big><big>Ритуальные услуги "НЕБО"</big></big></big></big></big></strong></p>
+      <p>Организация похорон по всей России</p>
+      <a href="#" class="btn" id="call-request-btn">Заказать звонок</a>
+    </div>
+  </section>
+
+  <!-- Модальное окно для заказа звонка -->
+  <div id="call-request-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Заказать звонок</h2>
+      <form id="call-request-form">
+        <label for="name">Ваше имя:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="phone">Ваш телефон:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <div class="checkbox">
+          <input type="checkbox" id="consent" name="consent">
+          <label for="consent">Я согласен(а) на обработку персональных данных</label>
+        </div>
+
+        <button type="submit" id="submit-btn" disabled>Заказать звонок</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно для входа -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Вход</h2>
+      <form id="login-form">
+        <label for="login-email">Email:</label>
+        <input type="email" id="login-email" name="login-email" placeholder="Введите ваш email" maxlength="50" required>
+
+        <label for="login-password">Пароль:</label>
+        <input type="password" id="login-password" name="login-password" placeholder="Введите пароль" minlength="8" maxlength="20" required>
+
+        <button type="submit" class="btn">Войти</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно для регистрации -->
+  <div id="register-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Регистрация</h2>
+      <form id="register-form">
+        <label for="reg-name">Имя:</label>
+        <input type="text" id="reg-name" name="reg-name" placeholder="Введите имя" maxlength="20" required>
+
+        <label for="reg-surname">Фамилия:</label>
+        <input type="text" id="reg-surname" name="reg-surname" placeholder="Введите фамилию" maxlength="20" required>
+
+        <label for="reg-patronymic">Отчество:</label>
+        <input type="text" id="reg-patronymic" name="reg-patronymic" placeholder="Введите отчество" maxlength="20" required>
+
+        <label for="reg-birthdate">Дата рождения:</label>
+        <input type="date" id="reg-birthdate" name="reg-birthdate" required>
+
+        <label for="reg-email">Email:</label>
+        <input type="email" id="reg-email" name="reg-email" placeholder="Введите ваш email" maxlength="50" required>
+
+        <label for="reg-phone">Телефон:</label>
+        <input type="tel" placeholder="+7XXXXXXXXXX" pattern="^\+7\d{10}$" maxlength="12" required />
+
+        <label for="reg-password">Пароль:</label>
+        <input type="password" id="reg-password" name="reg-password" placeholder="Введите пароль" minlength="8" maxlength="20" required>
+		
+        <label for="reg-confirm-password">Подтверждение пароля:</label>
+        <input type="password" id="reg-confirm-password" name="reg-confirm-password" placeholder="Повторите пароль" minlength="8" maxlength="20" required>
+
+        <div class="checkbox">
+          <input type="checkbox" id="reg-consent" name="reg-consent" required>
+          <label for="reg-consent">Я согласен(а) на обработку персональных данных</label>
+        </div>
+
+        <button type="submit" class="btn">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Скрипт для работы модальных окон -->
+  <script>
+    // Получаем элементы модальных окон
+    const callRequestModal = document.getElementById('call-request-modal');
+    const loginModal = document.getElementById('login-modal');
+    const registerModal = document.getElementById('register-modal');
+
+    // Кнопки для открытия модальных окон
+    const callRequestBtn = document.getElementById('call-request-btn');
+    const loginBtn = document.getElementById('login-btn');
+    const registerBtn = document.getElementById('register-btn');
+
+    // Кнопки закрытия (крестики)
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    // Открытие модального окна заказа звонка
+    callRequestBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      callRequestModal.style.display = 'block';
+    });
+
+    // Открытие модального окна входа
+    loginBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      loginModal.style.display = 'block';
+    });
+
+    // Открытие модального окна регистрации
+    registerBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      registerModal.style.display = 'block';
+    });
+
+    // Закрытие всех модальных окон при нажатии на крестик
+    closeButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        callRequestModal.style.display = 'none';
+        loginModal.style.display = 'none';
+        registerModal.style.display = 'none';
+      });
+    });
+
+    // Закрытие модального окна при клике вне его содержания
+    window.addEventListener('click', function(e) {
+      if (e.target === callRequestModal) {
+        callRequestModal.style.display = 'none';
+      }
+      if (e.target === loginModal) {
+        loginModal.style.display = 'none';
+      }
+      if (e.target === registerModal) {
+        registerModal.style.display = 'none';
+      }
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

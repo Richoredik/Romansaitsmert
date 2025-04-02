@@ -1,0 +1,66 @@
+
+    <section id="services" class="services">
+        <h2>Наши услуги</h2>
+        <div class="service-list">
+            <div class="service-item">
+                <img src="images/funeral.jpg" alt="Похороны">
+                <h3>Организация похорон</h3>
+                <p>Полное сопровождение с выбором всех необходимых атрибутов и услуг.</p>
+            </div>
+            <div class="service-item">
+                <img src="images/krem.jpg" alt="Кремация">
+                <h3>Кремация</h3>
+                <p>Организация кремации с соблюдением всех формальностей и процедур.</p>
+            </div>
+            <div class="service-item">
+                <img src="images/memorial.jpg" alt="Поминки">
+                <h3>Поминки</h3>
+                <p>Помощь в организации поминальных мероприятий в ресторанах и кафе.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <h2>О нашей компании</h2>
+        <p>Мы предоставляем комплексные ритуальные услуги в Санкт-Петербурге более 20 лет. Работаем с уважением и вниманием к каждому клиенту, помогая сделать процесс прощания достойным и спокойным.</p>
+        <img src="images/company.jpg" alt="Компания">
+    </section>
+	<section id="application" class="application">
+    <h2>Оставьте заявку</h2>
+    <form action="/submit" method="post" class="contact-form">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="phone">Телефон:</label>
+        <input type="tel" id="phone" name="phone" required>
+        <label for="message">Сообщение:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+        <button type="submit" class="btn">Отправить</button>
+    </form>
+</section>
+    <section id="contacts" class="contacts">
+        <h2>Свяжитесь с нами</h2>
+        <p>Наш офис: Краснопресненская набережная, 2</p>
+        <p>Телефон: <a href="tel:+78005553535">+7 (800) 555-35-35</a></p>
+        <p>Email: <a href="mailto:info@ritual-russia.ru">info@ritual-russia.ru</a></p>
+        <div id="map"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Ритуальные услуги. Все права защищены.</p>
+    </footer>
+
+    <script>
+        ymaps.ready(init);
+        function init() {
+            var myMap = new ymaps.Map("map", {
+                center: [55.754950, 37.572781],
+                zoom: 13
+            });
+            var myPlacemark = new ymaps.Placemark([55.754950, 37.572781], {
+                balloonContent: "Наш офис продаж"
+            });
+            myMap.geoObjects.add(myPlacemark);
+        }
+    </script>

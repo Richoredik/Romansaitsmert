@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ритуальные товары</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <style>
+	/* Общие стили для корзины */
+.cart-section {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Ограничение максимальной ширины */
+    width: 100%; /* Ширина по содержимому */
+    margin-left: auto; /* Выравнивание по правому краю */
+    margin-right: auto; /* Центрирование */
+}
+
+    /* Заголовок корзины */
+    .cart-section h2 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* Стили для товаров в корзине */
+    .cart-items {
+        list-style: none;
+        padding: 0;
+        max-height: 300px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 16px;
+    }
+
+    .cart-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Итоговая сумма */
+    .total {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .total span {
+        color: #e74c3c;
+    }
+
+    /* Кнопка "Оформить заказ" */
+    .checkout-btn {
+        background-color: #e74c3c;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+    }
+
+    .checkout-btn:hover {
+        background-color: #c0392b;
+    }
+
+    .checkout-btn:disabled {
+        background-color: #bdc3c7;
+        cursor: not-allowed;
+    }
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        /* Стили для кнопок входа/регистрации */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .auth-buttons .btn {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 22px;
+            transition: background-color 0.3s ease;
+        }
+        .auth-buttons .btn:hover {
+            background-color: #ff1a1a;
+        }
+        /* Стили для кнопки заказа звонка */
+        .call-btn {
+            background-color: #ff1a1a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .call-btn:hover {
+            background-color: #e60000;
+        }
+        /* Стиль для кнопки "Оформить заказ" */
+        .order-btn {
+            background-color: #333;
+            color: red;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 20px;
+        }
+        .order-btn:hover {
+            background-color: #555;
+        }
+        /* Стили для кнопки фильтра */
+        .filter-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        /* Расстояние между ценой и кнопками */
+        .product-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        /* Кнопка "Добавить в корзину" */
+        .add-to-cart-btn {
+            background-color: #ff1a1a;
+            color: white;
+            padding: 10px 60px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #e60000;
+        }
+        /* Стили для списка товаров */
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* Стили для фильтров */
+        .filters-section {
+            display: none;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .filters-section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #333;
+        }
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .filter-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .btn-primary {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #555;
+        }
+        .btn-secondary {
+            background-color: #ddd;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-secondary:hover {
+            background-color: #ccc;
+        }
+        /* Адаптивные стили */
+        @media (max-width: 768px) {
+            .products-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="tovari">
+    <header>
+        <div class="header-content" style="display: flex; align-items: center; justify-content: space-between;">
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><img src="logo.jpg" alt="Логотип" class="logo"></a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="uslugi.html">Услуги</a></li>
+                    <li><a href="tovari.html">Ритуальные товары</a></li>
+                    <li><a href="spravoch.html">Справочная информация</a></li>
+                    <li><a href="okompanii.html">О компании</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+            </div>
+        </div>
+    </header>
+    <section class="services-section">
+        <h1>Ритуальные товары</h1>
+   
+		<!-- Корзина -->
+<div class="cart-section">
+    <h2>Корзина</h2>
+    <ul class="cart-items" id="cart-items"></ul>
+    <div class="total">
+        Итого: <span id="total-price">0</span> ₽
+    </div>
+    <button class="checkout-btn" id="checkout-btn" disabled>Оформить заказ</button>
+</div>
+
+<br><br>
+        <!-- Модальные окна -->
+        <div id="call-request-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Заказать звонок</h2>
+                <form id="call-request-form">
+                    <label for="name">Ваше имя:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="phone">Ваш телефон:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <div class="checkbox">
+                        <input type="checkbox" id="consent" name="consent">
+                        <label for="consent">Я согласен(а) на обработку персональных данных</label>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <form id="login-form">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" name="login-email" required>
+                    <label for="login-password">Пароль:</label>
+                    <input type="password" id="login-password" name="login-password" required>
+                    <button type="submit" class="btn">Войти</button>
+                </form>
+            </div>
+        </div>
+        <div id="register-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <form id="register-form">
+                    <label for="reg-name">Имя:</label>
+                    <input type="text" id="reg-name" name="reg-name" required>
+                    <label for="reg-surname">Фамилия:</label>
+                    <input type="text" id="reg-surname" name="reg-surname" required>
+                    <label for="reg-patronymic">Отчество:</label>
+                    <input type="text" id="reg-patronymic" name="reg-patronymic">
+                    <label for="reg-birthdate">Дата рождения:</label>
+                    <input type="date" id="reg-birthdate" name="reg-birthdate" required>
+                    <label for="reg-email">Email:</label>
+                    <input type="email" id="reg-email" name="reg-email" required>
+                    <label for="reg-phone">Телефон:</label>
+                    <input type="tel" id="reg-phone" name="reg-phone" required>
+                    <label for="reg-password">Пароль:</label>
+                    <input type="password" id="reg-password" name="reg-password" required>
+                    <label for="reg-confirm-password">Подтверждение пароля:</label>
+                    <input type="password" id="reg-confirm-password" name="reg-confirm-password" required>
+                    <div class="checkbox">
+                        <input type="checkbox" id="reg-consent" name="reg-consent" required>
+                        <label for="reg-consent">Я согласен(а) на обработку персональных данных</label>
+                    </div>
+                    <button type="submit" class="btn">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+        <button class="filter-toggle" id="filter-toggle">Фильтр</button>
+        <!-- Секция фильтров -->
+        <div class="filters-section" id="filters-section">
+            <h2>Фильтр товаров</h2>
+            <div class="filter-group">
+                <label for="product-type">Тип товара</label>
+                <select id="product-type">
+                    <option value="all">Все товары</option>
+                    <option value="coffin">Гробы</option>
+                    <option value="wreath">Венки</option>
+                    <option value="memorial">Памятники</option>
+                    <option value="urn">Урны</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price-range">Ценовой диапазон</label>
+                <select id="price-range">
+                    <option value="all">Любая цена</option>
+                    <option value="0-10000">До 10,000 ₽</option>
+                    <option value="10000-50000">10,000 - 50,000 ₽</option>
+                    <option value="50000+">От 50,000 ₽</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="search">Поиск по названию</label>
+                <input type="text" id="search" placeholder="Введите название товара">
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-primary" id="apply-filters">Применить фильтры</button>
+                <button class="btn btn-secondary" id="reset-filters">Сбросить фильтры</button>
+            </div>
+        </div>
+        <!-- Список товаров -->
+        <div class="products-container">
+            <div class="product-item" data-type="coffin" data-price="25000">
+                <img src="derevgrob.jpg" alt="Гроб деревянный" class="product-image">
+                <h3>Гроб деревянный</h3>
+                <p>Классический деревянный гроб из дуба.</p>
+                <p class="price">25,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="wreath" data-price="5500">
+                <img src="ritualvenok.jpg" alt="Ритуальный венок" class="product-image">
+                <h3>Ритуальный венок</h3>
+                <p>Искусственный венок с лентами.</p>
+                <p class="price">5,500 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="memorial" data-price="45000">
+                <img src="granitpamatnik.jpg" alt="Памятник гранитный" class="product-image">
+                <h3>Памятник гранитный</h3>
+                <p>Гранитный памятник с возможностью гравировки.</p>
+                <p class="price">45,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="coffin" data-price="30000">
+                <img src="lakgrob.jpg" alt="Гроб лакированный" class="product-image">
+                <h3>Гроб лакированный</h3>
+                <p>Лакированный деревянный гроб.</p>
+                <p class="price">30,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="wreath" data-price="6000">
+                <img src="venoksrozami.jpg" alt="Венок с розами" class="product-image">
+                <h3>Венок с розами</h3>
+                <p>Ритуальный венок с искусственными розами.</p>
+                <p class="price">6,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="memorial" data-price="60000">
+                <img src="omgitsamazing.jpg" alt="Памятник мраморный" class="product-image">
+                <h3>Памятник мраморный</h3>
+                <p>Мраморный памятник высокого качества.</p>
+                <p class="price">60,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="coffin" data-price="70000">
+                <img src="dizain.jpg" alt="Гроб эксклюзивный" class="product-image">
+                <h3>Гроб эксклюзивный</h3>
+                <p>Эксклюзивный дизайн по индивидуальному заказу.</p>
+                <p class="price">70,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="wreath" data-price="12000">
+                <img src="supermega.jpg" alt="Венок элитный" class="product-image">
+                <h3>Венок элитный</h3>
+                <p>Искусственные цветы премиум-класса.</p>
+                <p class="price">12,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="memorial" data-price="80000">
+                <img src="ekskluziv.jpg" alt="Памятник эксклюзивный" class="product-image">
+                <h3>Памятник эксклюзивный</h3>
+                <p>Эксклюзивный гранитный памятник.</p>
+                <p class="price">80,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="urn" data-price="15000">
+                <img src="urnalox.jpg" alt="Урна для праха" class="product-image">
+                <h3>Урна для праха</h3>
+                <p>Мраморная урна классического дизайна.</p>
+                <p class="price">15,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="memorial" data-price="8000">
+                <img src="krest.jpg" alt="Крест деревянный" class="product-image">
+                <h3>Крест деревянный</h3>
+                <p>Традиционный деревянный крест.</p>
+                <p class="price">8,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="urn" data-price="25000">
+                <img src="urna.jpg" alt="Урна элитная" class="product-image">
+                <h3>Урна элитная</h3>
+                <p>Элитная урна с гравировкой и элементами золота.</p>
+                <p class="price">25,000 ₽</p>
+                <div class="product-actions">
+                    <button class="add-to-cart-btn">Добавить в корзину</button>
+                </div>
+            </div>
+            <div class="product-item" data-type="coffin" data-price="150000">
+    <img src="megasuper.jpg" alt="Гроб VIP-класса" class="product-image">
+    <h3>Гроб VIP-класса</h3>
+    <p>Роскошный гроб с отделкой из шелка и золочеными элементами.</p>
+    <p class="price">150,000 ₽</p>
+    <div class="product-actions">
+        <button class="add-to-cart-btn">Добавить в корзину</button>
+    </div>
+</div>
+<div class="product-item" data-type="wreath" data-price="20000">
+    <img src="nazakaaazz.jpg" alt="Венок на заказ" class="product-image">
+    <h3>Венок на заказ</h3>
+    <p>Ритуальный венок, изготовленный по индивидуальному заказу.</p>
+    <p class="price">20,000 ₽</p>
+    <div class="product-actions">
+        <button class="add-to-cart-btn">Добавить в корзину</button>
+    </div>
+</div>
+<div class="product-item" data-type="memorial" data-price="100000">
+    <img src="pamnazakaz.jpg" alt="Памятник на заказ" class="product-image">
+    <h3>Памятник на заказ</h3>
+    <p>Индивидуальный дизайн памятника с резьбой и декоративными элементами.</p>
+    <p class="price">100,000 ₽</p>
+    <div class="product-actions">
+        <button class="add-to-cart-btn">Добавить в корзину</button>
+    </div>
+</div>
+<div class="product-item" data-type="coffin" data-price="40000">
+    <img src="metalgrin.jpg" alt="Гроб металлический" class="product-image">
+    <h3>Гроб металлический</h3>
+    <p>Металлический гроб с отделкой и антикоррозийной защитой.</p>
+    <p class="price">40,000 ₽</p>
+    <div class="product-actions">
+        <button class="add-to-cart-btn">Добавить в корзину</button>
+    </div>
+</div>
+<div class="product-item" data-type="wreath" data-price="4000">
+    <img src="dfndnfoigndf.jpg" alt="Венок искусственный" class="product-image">
+    <h3>Венок искусственный</h3>
+    <p>Декоративный искусственный венок с элементами зелени.</p>
+    <p class="price">4,000 ₽</p>
+    <div class="product-actions">
+        <button class="add-to-cart-btn">Добавить в корзину</button>
+    </div>
+</div>
+<div class="product-item" data-type="memorial" data-price="90000">
+    <img src="pampam.jpg" alt="Памятник мраморный эксклюзивный" class="product-image">
+    <h3>Памятник мраморный эксклюзивный</h3>
+    <p>Эксклюзивный мраморный памятник с индивидуальным оформлением.</p>
+    <p class="price">90,000 ₽</p>
+    <div class="product-actions">
+        <button class="add-to-cart-btn">Добавить в корзину</button>
+    </div>
+</div>
+</div>
+
+
+<script>
+// Логика корзины
+const cartItemsList = document.getElementById('cart-items');
+const totalPriceElement = document.getElementById('total-price');
+const checkoutBtn = document.getElementById('checkout-btn');
+const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+const cart = new Map();
+
+// Добавление товара в корзину
+addToCartButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const product = button.closest('.product-item');
+        const name = product.querySelector('h3').textContent;
+        const price = parseInt(product.getAttribute('data-price'));
+
+        if (cart.has(name)) {
+            cart.set(name, cart.get(name) + 1);
+        } else {
+            cart.set(name, 1);
+        }
+
+        updateCartUI();
+        alert(`Товар "${name}" добавлен в корзину!`);
+    });
+});
+
+// Обновление интерфейса корзины
+function updateCartUI() {
+    cartItemsList.innerHTML = '';
+    let total = 0;
+
+    cart.forEach((quantity, name) => {
+        const itemTotal = getPriceByName(name) * quantity;
+        total += itemTotal;
+
+        const li = document.createElement('li');
+        li.className = 'cart-item';
+        li.innerHTML = `
+            ${name} x${quantity} - ${itemTotal.toLocaleString()} ₽
+        `;
+        cartItemsList.appendChild(li);
+    });
+
+    totalPriceElement.textContent = total.toLocaleString();
+    checkoutBtn.disabled = cart.size === 0;
+}
+
+// Получение цены товара по названию
+function getPriceByName(name) {
+    const product = Array.from(document.querySelectorAll('.product-item')).find(
+        item => item.querySelector('h3').textContent === name
+    );
+    return parseInt(product.getAttribute('data-price'));
+}
+
+// Оформление заказа
+checkoutBtn.addEventListener('click', () => {
+    if (cart.size > 0) {
+        alert('Заказ оформлен!');
+        cart.clear();
+        updateCartUI();
+    }
+});
+</script>

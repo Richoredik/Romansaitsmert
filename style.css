@@ -1,0 +1,465 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+header {
+    background-color: #222; 
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+
+.services-section {
+    padding: 40px;
+    background-color: #4A4A4A;
+    text-align: center;
+}
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.service-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.service-item h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.service-item p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.service-item strong {
+    display: block;
+    margin-top: 10px;
+    font-size: 18px;
+    color: #ff4040;
+    font-weight: bold;
+}
+
+.services-section h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #333;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contacts-section {
+    padding: 40px;
+    background-color: #f8f8f8;
+    text-align: center;
+}
+
+.contact-info {
+    margin-bottom: 20px;
+}
+
+.map-container {
+    margin-top: 20px;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-menu li {
+    margin: 0 20px;
+}
+
+.nav-menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.logo {
+    height: 60px;    margin-right: 20px;
+}
+
+.office-section {    padding: 50px;
+    text-align: center;    background-color: #f4f4f4;
+}
+.full-office-image {    width: 100%;
+    max-width: 1200px;    border-radius: 10px;
+    margin-top: 20px;}
+.about-section {
+    padding: 50px;    background-color: #fff;
+    text-align: center;
+}
+.container {    max-width: 1000px;
+    margin: 0 auto;}
+.about-section h1 {
+    font-size: 36px;    margin-bottom: 20px;
+}
+.mission {    font-size: 20px;
+    color: #555;    margin-bottom: 40px;
+}
+.about-image {    width: 40%;
+    border-radius: 10px;    margin-bottom: 40px;
+}
+.company-info, .values, .about-footer {    max-width: 900px;
+    margin: 0 auto;    text-align: left;
+}
+.company-info h2, .values h2, .about-footer h2 {    font-size: 28px;
+    margin-bottom: 20px;}
+.company-info p, .values p, .about-footer p {
+    font-size: 18px;    line-height: 1.6;
+    color: #444;}
+.values ul {
+    list-style-type: disc;    margin-left: 20px;
+}
+.values ul li {    margin-bottom: 15px;
+}
+.values ul li strong {    font-weight: bold;
+}
+footer {    background-color: #222;
+    color: white;    text-align: center;
+    padding: 2ы0px;    margin-top: 50px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px; 
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* расстояние между галочкой и текстом */
+  margin-top: 20px; /* отступ сверху */
+}
+
+
+.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px; /* размер чекбокса */
+  cursor: pointer;
+}
+
+.checkbox label {
+  cursor: pointer;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+}
+
+#submit-btn {
+    background-color: #ff4040;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: not-allowed; 
+}
+
+#submit-btn.active {
+    cursor: pointer;
+    background-color: #ff1a1a;
+}
+
+.checkbox {
+    margin-top: 10px;
+}
+
+input[type="text"], input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+.ya_map {
+	font-family: arial;
+	font-size: 12px;
+	color: #454545;
+}
+ 
+#map {
+	width: 1800px;
+	height: 600px;
+}
+
+h5 {
+	font-size: 36px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+.hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    background-image: url('your-image.jpg'); /* Путь к изображению */
+    background-size: cover;
+    background-position: center;
+}
+
+#login-modal {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/025/466/535/original/purple-gradient-abstract-background-simple-and-modern-studio-background-vector.jpg'); /* Путь к изображению для входа */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(5px);
+}
+
+#register-modal {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/025/466/535/original/purple-gradient-abstract-background-simple-and-modern-studio-background-vector.jpg'); /* Путь к изображению для регистрации */
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(5px);
+}
+
+.products-section {
+    text-align: center;
+}
+
+.btn {
+    display: inline-block; 
+    margin-top: -20px; 
+}
+
+:root {
+  --border-radius: 8px;
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+div.password {
+	margin-left: -30px; 
+	cursor: pointer;
+  display: flex;
+  background-color: gray;
+  width: fit-content;
+  border-radius: var(--border-radius);  
+}
+
+input {
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  padding-right: 4px;
+}
+
+input:focus {
+  outline: none; //Чтобы убрать обводку при фокусе
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.auth-buttons {
+  margin-left: 200px; /* или любое другое значение */
+}
+
+
+.hero-content {
+    z-index: 1;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.5); 
+	padding-top: 280px;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+
+.product-item {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff4040;
+}
+
+footer {
+    background-color: #222; 
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+h1 {
+    font-size: 48px;
+	color: red;
+    margin-bottom: 10px;
+}
+.info-section {
+    padding: 40px;
+    text-align: center;
+}
+.info-item {
+    margin-bottom: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.services-section h1 {
+    color: white;
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.service-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-item h2 {
+    color: orange;
+}
+.info-item h2 {
+    margin-bottom: 10px;
+	color: red;
+}
+
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.btn {
+	background-color: #ff4040;
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none;
+    border-radius: 5px; 
+    font-size: 18px; 
+    transition: background-color 0.3s ease; 
+}
+
+.btn:hover {
+    background-color: #ff1a1a; 

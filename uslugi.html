@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="О компании Ритуальные услуги. Узнайте больше о нашей миссии и услугах.">
+    <title>Услуги</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        /* Стили для кнопок входа/регистрации */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .auth-buttons .btn {
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 22px;
+            transition: background-color 0.3s ease;
+        }
+        .auth-buttons .btn:hover {
+            background-color: #ff1a1a;
+        }
+        /* Стили для кнопки заказа звонка */
+        .call-btn {
+            background-color: #ff1a1a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .call-btn:hover {
+            background-color: #e60000;
+        }
+        /* Стиль для кнопки "Оформить заказ" */
+        .order-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 20px;
+        }
+        .order-btn:hover {
+            background-color: #555;
+        }
+        /* Стили для кнопки фильтра */
+        .filter-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        /* Расстояние между ценой и кнопками */
+        .service-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        /* Кнопка "Плюс" */
+        .add-service {
+            background-color: #ddd;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-service.selected {
+            background-color: green;
+            color: white;
+        }
+        /* Стили для списка услуг */
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .service-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .service-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* Стили для фильтров */
+        .filters-section {
+            display: none;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .filters-section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #333;
+        }
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .filter-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .btn-primary {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #555;
+        }
+        .btn-secondary {
+            background-color: #ddd;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-secondary:hover {
+            background-color: #ccc;
+        }
+        /* Сообщение о звонке */
+        .confirmation-message {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            animation: fadeInOut 3s forwards;
+        }
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        /* Адаптивные стили */
+        @media (max-width: 768px) {
+            .services-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="uslugi">
+    <header>
+        <div class="header-content" style="display: flex; align-items: center; justify-content: space-between;">
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html"><img src="logo.jpg" alt="Логотип" class="logo"></a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="uslugi.html">Услуги</a></li>
+                    <li><a href="tovari.html">Ритуальные товары</a></li>
+                    <li><a href="spravoch.html">Справочная информация</a></li>
+                    <li><a href="okompanii.html">О компании</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+            </div>
+        </div>
+    </header>
+    <section class="services-section">
+        <div class="container" style="position: relative;">
+            <h1>Ритуальные услуги</h1>
+            <div style="display: flex; justify-content: center; align-items: center; position: relative;">
+ 
+                <button class="order-btn" id="proceed-to-order" style="display: none; position: absolute; right: 0;">Оформить заказ</button>
+            </div>
+            <button class="filter-toggle" id="filter-toggle">Фильтр</button>
+            <!-- Секция фильтров -->
+            <div class="filters-section" id="filters-section">
+                <h2>Фильтр услуг</h2>
+                <div class="filter-group">
+                    <label for="service-type">Тип услуги</label>
+                    <select id="service-type">
+                        <option value="all">Все услуги</option>
+                        <option value="funeral">Похоронные услуги</option>
+                        <option value="cremation">Кремация</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price-range">Ценовой диапазон</label>
+                    <select id="price-range">
+                        <option value="all">Любая цена</option>
+                        <option value="0-5000">До 5 000 ₽</option>
+                        <option value="5000-10000">5 000 - 10 000 ₽</option>
+                        <option value="10000-20000">10 000 - 20 000 ₽</option>
+                        <option value="20000+">От 20 000 ₽</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search">Поиск по названию</label>
+                    <input type="text" id="search" placeholder="Введите название услуги">
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-primary" id="apply-filters">Применить фильтры</button>
+                    <button class="btn btn-secondary" id="reset-filters">Сбросить фильтры</button>
+                </div>
+            </div>
+            <!-- Список услуг -->
+            <div class="services-container">
+                <!-- Похоронные услуги -->
+                <div class="service-item" data-type="funeral" data-price="10000">
+                    <h2>Организация похорон</h2>
+                    <p>Полный спектр услуг по организации и проведению похорон.</p>
+                    <strong>от 10 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="7000">
+                    <h2>Транспортировка тела</h2>
+                    <p>Перевозка тела усопшего к месту погребения.</p>
+                    <strong>от 7 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="5000">
+                    <h2>Катафалк</h2>
+                    <p>Предоставление транспортного средства для похоронной процессии.</p>
+                    <strong>от 5 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="2500">
+                    <h2>Ритуальные принадлежности</h2>
+                    <p>Предоставление гробов, венков, крестов и других товаров.</p>
+                    <strong>от 2 500 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="3000">
+                    <h2>Музыкальное сопровождение</h2>
+                    <p>Организация музыкального сопровождения церемонии.</p>
+                    <strong>от 3 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="8000">
+                    <h2>Бальзамирование</h2>
+                    <p>Профессиональные услуги по бальзамированию тела.</p>
+                    <strong>от 8 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="1500">
+                    <h2>Оформление документов</h2>
+                    <p>Оформление свидетельства о смерти и других необходимых документов.</p>
+                    <strong>от 1 500 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="10000">
+                    <h2>Ритуальный зал</h2>
+                    <p>Аренда помещения для прощания с усопшим.</p>
+                    <strong>от 10 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="5000">
+                    <h2>Организация поминального обеда</h2>
+                    <p>Помощь в организации поминального обеда после церемонии.</p>
+                    <strong>от 5 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="funeral" data-price="1000">
+                    <h2>Экспресс-доставка ритуальных принадлежностей</h2>
+                    <p>Быстрая доставка всех необходимых товаров для похорон.</p>
+                    <strong>от 1 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <!-- Кремационные услуги -->
+                <div class="service-item" data-type="cremation" data-price="12000">
+                    <h2>Кремация</h2>
+                    <p>Проведение процедуры кремации и выдача урны с прахом.</p>
+                    <strong>от 12 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="cremation" data-price="15000">
+                    <h2>Установка урны в колумбарии</h2>
+                    <p>Размещение урны с прахом в колумбарии.</p>
+                    <strong>от 15 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="cremation" data-price="3000">
+                    <h2>Чистка и уход за нишей</h2>
+                    <p>Регулярный уход за местом размещения урны.</p>
+                    <strong>от 3 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="cremation" data-price="1500">
+                    <h2>Доставка цветов к урне</h2>
+                    <p>Доставка цветов к месту размещения урны.</p>
+                    <strong>от 1 500 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+                <div class="service-item" data-type="cremation" data-price="2000">
+                    <h2>Мемориальные таблички</h2>
+                    <p>Изготовление и установка табличек с именем усопшего.</p>
+                    <strong>от 2 000 ₽</strong>
+                    <div class="service-actions">
+                        <button class="btn select-datetime">Выбрать дату и время</button>
+                        <button class="btn add-service">+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Модальные окна -->
+            <div id="datetime-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <h2>Выберите дату и время</h2>
+                    <form id="datetime-form">
+                        <label for="date">Дата:</label>
+                        <label for="date">Дата:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="time">Время:</label>
+            <input type="time" id="time" name="time" required>
+            <label for="phone">Телефон:</label>
+            <input type="tel" id="phone" name="phone" placeholder="+7" required>
+            <label for="notes">Пожелания:</label>
+            <textarea id="notes" name="notes" placeholder="Введите ваши пожелания"></textarea>
+            <button type="submit" class="btn btn-primary">Подтвердить</button>
+        </form>
+    </div>
+</div>
+
+<div id="order-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Оформление заказа</h2>
+        <form id="order-form">
+            <label for="date">Дата:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="time">Время:</label>
+            <input type="time" id="time" name="time" required>
+            <label for="phone">Телефон:</label>
+            <input type="tel" id="phone" name="phone" placeholder="+7" required>
+            <label for="notes">Пожелания:</label>
+            <textarea id="notes" name="notes" placeholder="Введите ваши пожелания"></textarea>
+            <button type="submit" class="btn btn-primary">Подтвердить</button>
+        </form>
+    </div>
+</div>
+
+<div id="payment-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Выберите способ оплаты</h2>
+        <form id="payment-form">
+            <label for="payment-method">Способ оплаты:</label>
+            <select id="payment-method" name="payment-method" required>
+                <option value="">Выберите способ оплаты</option>
+                <option value="online">Онлайн</option>
+                <option value="cash">Наличными</option>
+                <option value="barter">Натурой</option>
+                <option value="installment">В рассрочку</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Подтвердить</button>
+        </form>
+    </div>
+</div>
+
+<!-- Сообщение о звонке -->
+<div class="confirmation-message" id="confirmation-message">
+    Вам скоро перезвонят!
+</div>
+</div>
+</section>
+
+<footer>
+    <p>&copy; 2024 Ритуальные услуги. Все права защищены.</p>
+</footer>
+
+<script>
+    // Обработчики для закрытия модальных окон
+    const closeButtons = document.querySelectorAll('.close-btn');
+    const datetimeModal = document.getElementById('datetime-modal');
+    const orderModal = document.getElementById('order-modal');
+    const paymentModal = document.getElementById('payment-modal');
+    const confirmationMessage = document.getElementById('confirmation-message');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            datetimeModal.style.display = 'none';
+            orderModal.style.display = 'none';
+            paymentModal.style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === datetimeModal) datetimeModal.style.display = 'none';
+        if (e.target === orderModal) orderModal.style.display = 'none';
+        if (e.target === paymentModal) paymentModal.style.display = 'none';
+    });
+
+    // Открытие модального окна "Выбрать дату и время"
+    document.querySelectorAll('.select-datetime').forEach(button => {
+        button.addEventListener('click', () => {
+            datetimeModal.style.display = 'block';
+        });
+    });
+
+    // Переход к форме оплаты после подтверждения даты и времени
+    document.getElementById('datetime-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        datetimeModal.style.display = 'none';
+        paymentModal.style.display = 'block';
+    });
+
+    // Переход к форме оплаты после оформления заказа
+    document.getElementById('order-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        orderModal.style.display = 'none';
+        paymentModal.style.display = 'block';
+    });
+
+    // Показ сообщения о звонке после выбора способа оплаты
+    document.getElementById('payment-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        paymentModal.style.display = 'none';
+        confirmationMessage.style.display = 'block';
+        setTimeout(() => {
+            confirmationMessage.style.display = 'none';
+        }, 3000);
+    });
+
+    // Фильтрация услуг
+    document.getElementById('apply-filters').addEventListener('click', function () {
+        const serviceType = document.getElementById('service-type').value;
+        const priceRange = document.getElementById('price-range').value;
+        const searchQuery = document.getElementById('search').value.toLowerCase();
+        const serviceItems = document.querySelectorAll('.service-item');
+
+        serviceItems.forEach(item => {
+            const itemType = item.getAttribute('data-type');
+            const itemPrice = parseInt(item.getAttribute('data-price'));
+            const itemTitle = item.querySelector('h2').textContent.toLowerCase();
+
+            let typeMatch = serviceType === 'all' || itemType === serviceType;
+            let priceMatch = true;
+            let searchMatch = itemTitle.includes(searchQuery);
+
+            if (priceRange !== 'all') {
+                if (priceRange === '0-5000') {
+                    priceMatch = itemPrice <= 5000;
+                } else if (priceRange === '5000-10000') {
+                    priceMatch = itemPrice > 5000 && itemPrice <= 10000;
+                } else if (priceRange === '10000-20000') {
+                    priceMatch = itemPrice > 10000 && itemPrice <= 20000;
+                } else if (priceRange === '20000+') {
+                    priceMatch = itemPrice > 20000;
+                }
+            }
+
+            if (typeMatch && priceMatch && searchMatch) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+    // Сброс фильтров
+    document.getElementById('reset-filters').addEventListener('click', function () {
+        document.getElementById('service-type').value = 'all';
+        document.getElementById('price-range').value = 'all';
+        document.getElementById('search').value = '';
+        document.querySelectorAll('.service-item').forEach(item => {
+            item.style.display = 'block';
+        });
+    });
+
+    // Переключение видимости фильтров
+    document.getElementById('filter-toggle').addEventListener('click', function () {
+        const filtersSection = document.getElementById('filters-section');
+        filtersSection.style.display = filtersSection.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Добавление услуги в список выбранных
+    const selectedServices = new Set();
+    const proceedToOrderBtn = document.getElementById('proceed-to-order');
+
+    document.querySelectorAll('.add-service').forEach(button => {
+        button.addEventListener('click', function () {
+            const serviceName = this.closest('.service-item').querySelector('h2').textContent;
+            if (selectedServices.has(serviceName)) {
+                selectedServices.delete(serviceName);
+                this.classList.remove('selected');
+            } else {
+                selectedServices.add(serviceName);
+                this.classList.add('selected');
+            }
+
+            if (selectedServices.size > 0) {
+                proceedToOrderBtn.style.display = 'inline-block';
+            } else {
+                proceedToOrderBtn.style.display = 'none';
+            }
+        });
+    });
+
+    // Открытие модального окна "Оформить заказ"
+    proceedToOrderBtn.addEventListener('click', () => {
+        orderModal.style.display = 'block';
+    });
+</script>
+</body>
+</html>
